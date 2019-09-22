@@ -8,7 +8,7 @@ router.get("/weeks", (req, res) => {
     reportsModel.weeks((rows) => {
         res.json(rows);
     })
-})
+});
 
 router.get("/week/:id", (req, res) => {
     reportsModel.get(req.params.id, (row) => {
@@ -44,6 +44,6 @@ router.delete("/", jwtModel.test, (req, res) => {
             res.status(500).send();
         }
     })
-})
+});
 
 module.exports = router;
