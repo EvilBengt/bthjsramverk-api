@@ -1,5 +1,12 @@
-CREATE TABLE IF NOT EXISTS users (
-    email    VARCHAR(255) NOT NULL,
-    password VARCHAR(60)  NOT NULL,
-    UNIQUE(email)
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "users" (
+	"email"	VARCHAR(255) NOT NULL UNIQUE,
+	"password"	VARCHAR(60) NOT NULL,
+	PRIMARY KEY("email")
 );
+CREATE TABLE IF NOT EXISTS "reports" (
+	"week"	INTEGER,
+	"text"	TEXT,
+	PRIMARY KEY("week")
+);
+COMMIT;
