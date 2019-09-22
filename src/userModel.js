@@ -3,24 +3,29 @@ const bcrypt = require("bcryptjs");
 const jwtModel = require("./jwtModel");
 
 const userModel = {
-    login: (email, password, callback) => {
+    login: (login, password, callback) => {
         connection.run((db) => {
-            db.get(`SELECT password FROM users WHERE email = $email`, {
-                $email: email
+            db.get(`SELECT password FROM users WHERE name = $login OR email = $login`, {
+                $login: login
             }, (err, row) => {
                 if (row && bcrypt.compareSync(password, row.password)) {
-                    callback(jwtModel.sign(email));
+                    callback(jwtModel.sign(login));
                 } else {
                     callback(false);
                 }
             });
         });
     },
-    register: (email, password, callback) => {
+    register: (name, email, password, birthdate, callback) => {
         connection.run((db) => {
-            db.run(`INSERT INTO users (email, password) VALUES ($email, $password)`, {
+            db.run(`
+                INSERT INTO users (name, email, password, birthdate)
+                VALUES ($name, $email, $password, $birthdate)
+            `, {
+                $name: name,
                 $email: email,
-                $password: bcrypt.hashSync(password, 5)
+                $password: bcrypt.hashSync(password, 8),
+                $birthdate: birthdate
             }, (err) => {
                 if (err) {
                     callback(false);

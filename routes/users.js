@@ -4,7 +4,7 @@ const userModel = require("../src/userModel");
 const router = express.Router();
 
 router.post("/login", (req, res) => {
-    userModel.login(req.body.email, req.body.password, (token) => {
+    userModel.login(req.body.login, req.body.password, (token) => {
         if (token) {
             res.send(token);
         } else {
@@ -14,7 +14,7 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/register", (req, res) => {
-    userModel.register(req.body.email, req.body.password, (success) => {
+    userModel.register(req.body.name, req.body.email, req.body.password, (success) => {
         if (success) {
             res.status(201).send();
         } else {
