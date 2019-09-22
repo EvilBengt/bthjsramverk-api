@@ -1,28 +1,51 @@
-const sqlite = require("sqlite3");
-
-const db = new sqlite.Database("../db/texts.sqlite");
+const connection = require("./db");
 
 const reportsModel = {
-    get: (week) => {
-        return db.run(`SELECT week, text FROM reports WHERE week = $?`, {
-            $week: week
+    weeks: (callback) => {
+        connection.run((db) => {
+            db.all(`SELECT week FROM reports`, (err, rows) => {
+                callback(rows);
+            });
+        })
+    },
+    get: (week, callback) => {
+        connection.run((db) => {
+            db.get(`SELECT week, text FROM reports WHERE week = $week`, {
+                $week: week
+            }, (err, row) => {
+                callback(row);
+            });
         });
     },
-    create: (week) => {
-        db.run(`INSERT INTO reports (week) VALUES ($week)`, {
-            $week: week
-        });
+    create: (week, text, callback) => {
+        connection.run((db) => {
+            db.run(`INSERT INTO reports (week, text) VALUES ($week, $text)`, {
+                $week: week,
+                $text: text
+            }, (err) => {
+                console.log(err);
+                if (err) {
+                    callback(false);
+                } else {
+                    callback(true);
+                }
+            });
+        })
     },
     update: (week, text) => {
-        db.run(`UPDATE reports SET text = $text WHERE week = $week`, {
-            $text: text,
-            $week: week
-        });
+        connection.run((db) => {
+            db.run(`UPDATE reports SET text = $text WHERE week = $week`, {
+                $text: text,
+                $week: week
+            });
+        })
     },
     delete: (week) => {
-        db.run(`DELETE FROM reports WHERE week = $week LIMIT 1`, {
-            $week: week
-        });
+        connection.run((db) => {
+            db.run(`DELETE FROM reports WHERE week = $week LIMIT 1`, {
+                $week: week
+            });
+        })
     }
 };
 
