@@ -23,7 +23,6 @@ const reportsModel = {
                 $week: week,
                 $text: text
             }, (err) => {
-                console.log(err);
                 if (err) {
                     callback(false);
                 } else {
@@ -32,18 +31,30 @@ const reportsModel = {
             });
         })
     },
-    update: (week, text) => {
+    update: (week, text, callback) => {
         connection.run((db) => {
             db.run(`UPDATE reports SET text = $text WHERE week = $week`, {
                 $text: text,
                 $week: week
+            }, (err) => {
+                if (err) {
+                    callback(false);
+                } else {
+                    callback(true);
+                }
             });
         })
     },
-    delete: (week) => {
+    delete: (week, callback) => {
         connection.run((db) => {
             db.run(`DELETE FROM reports WHERE week = $week LIMIT 1`, {
                 $week: week
+            }, (err) => {
+                if (err) {
+                    callback(false);
+                } else {
+                    callback(true);
+                }
             });
         })
     }

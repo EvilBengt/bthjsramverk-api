@@ -36,4 +36,14 @@ router.put("/", jwtModel.test, (req, res) => {
     })
 });
 
+router.delete("/", jwtModel.test, (req, res) => {
+    reportsModel.delete(week, (success) => {
+        if (success) {
+            res.status(204).send();
+        } else {
+            res.status(500).send();
+        }
+    })
+})
+
 module.exports = router;
