@@ -1,7 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 const jwtModel = {
-    sign: (email) => jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h'}),
+    sign: (email) => jwt.sign(
+        { email: email },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h'}
+    ),
 
     test: (req, res, next) => {
         const token = req.headers['x-access-token'];
@@ -13,15 +17,15 @@ const jwtModel = {
                         errors: [
                             {
                                 status: 401,
-                                title: "Authorization required",
-                                message: "Authorization required"
+                                title: "Unauthorized",
+                                message: "Unauthorized"
                             }
                         ]
                     }
                 );
-                return;
+            } else {
+                next();
             }
-            next();
         });
     }
 };
