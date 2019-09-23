@@ -6,7 +6,9 @@ const morgan     = require("morgan");
 const index = require("./routes/index");
 
 const app = express();
-const port = 1337;
+const devPort = 1337;
+const prodPort = 8333;
+const port = process.env.NODE_ENV === "production" ? prodPort : devPort;
 
 if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined"));
