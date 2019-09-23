@@ -47,7 +47,7 @@ const reportsModel = {
     },
     delete: (week, callback) => {
         connection.run((db) => {
-            db.run(`DELETE FROM reports WHERE week = $week LIMIT 1`, {
+            db.run(`DELETE FROM reports WHERE week = $week`, {
                 $week: week
             }, (err) => {
                 if (err) {
