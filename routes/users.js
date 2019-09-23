@@ -6,7 +6,11 @@ const router = express.Router();
 router.post("/login", (req, res) => {
     userModel.login(req.body.login, req.body.password, (token) => {
         if (token) {
-            res.send(token);
+            res.json({
+                data: {
+                    token: token
+                }
+            });
         } else {
             res.status(401).send();
         }
@@ -14,7 +18,7 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/register", (req, res) => {
-    userModel.register(req.body.name, req.body.email, req.body.password, (success) => {
+    userModel.register(req.body.name, req.body.email, req.body.password, req.body.birthdate, (success) => {
         if (success) {
             res.status(201).send();
         } else {
