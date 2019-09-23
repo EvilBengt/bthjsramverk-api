@@ -10,13 +10,14 @@ const devPort = 1337;
 const prodPort = 8333;
 const port = process.env.NODE_ENV === "production" ? prodPort : devPort;
 
+app.use(cors());
+
 if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined"));
 }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
 
 // Logging incoming requests to the console
 app.use((req, res, next) => {
