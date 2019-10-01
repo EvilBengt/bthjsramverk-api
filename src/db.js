@@ -1,8 +1,8 @@
-const sqlite = require("sqlite3");
+const dbAccess = require("../db/database");
 
 const db = {
     run: (callback) => {
-        const connection = new sqlite.Database("./db/texts.sqlite");
+        const connection = dbAccess.get();
 
         const result = callback(connection)
 
