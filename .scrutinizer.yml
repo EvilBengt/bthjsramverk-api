@@ -1,4 +1,7 @@
 build:
+  environment:
+    variables:
+      JWT_SECRET: GWp7aej%t*7hh30A5hK9mZo*XrMGe*cq1tcbyuMTaqiGtpuoOF7OSUt95O@76*9u
   nodes:
     coverage:
       tests:
